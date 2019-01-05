@@ -66,18 +66,19 @@ public class AddPartController {
     }
         
     @FXML
-    public void handleCancelAddPart(ActionEvent event) {
-
+    public void handleCancelAddPart() {
+        partIDIndex--;
+        dialogStage.close();
     }
 
     @FXML
     public void handleInHouse() {
-        displayInHouse(true);
+        selectDialogDisplay(true);
     }
 
     @FXML
     void handleOutsource() {
-        displayInHouse(false);
+        selectDialogDisplay(false);
     }
 
     @FXML
@@ -206,35 +207,33 @@ public class AddPartController {
         this.dialogStage = dialogStage;
     }
     
-    private void displayInHouse(boolean inHouseSelected){        
+    /**
+     * Set the label and prompt text to Customer Name or Machine ID
+     * depending on whether Inhouse or Outsourced radio button is selected.
+     * Function is called by even handlers for Inhouse and Outsourced radio buttons
+     * The default display with Inhouse selected is called in initialized() below
+     * @param inHouseSelected: a true/false value determined by even handlers
+     */
+    private void selectDialogDisplay(boolean inHouseSelected){        
         if(inHouseSelected){
             inHouse.setSelected(true);
             nameOrIDLabel.setText("Machine ID");
+            nameOrIDText.clear();
             nameOrIDText.setPromptText("Machine ID");
         }
         else{
             outsourced.setSelected(true);
             nameOrIDLabel.setText("Company Name");
+            nameOrIDText.clear();
             nameOrIDText.setPromptText("Company Name");
-        }
-        
+        }        
     }
     
     public void setPartID(){
         partIDIndex++;
         partID.setText(String.valueOf(partIDIndex));
-    }
+    }   
     
-        
-//    public void setDialogStage(Stage dialogStage){
-//        this.dialogStage = dialogStage;
-//    }
-//    
-//    public boolean isAddClicked(){
-//        return 
-//    }
-    
-
     /**
      * Initializes the controller class, automatically called after successful 
      * loading of fxml file
@@ -242,7 +241,7 @@ public class AddPartController {
     @FXML
     private void initialize() {
         
-        displayInHouse(true);
+        selectDialogDisplay(true);
     }
 
     

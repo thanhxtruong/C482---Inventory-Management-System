@@ -109,9 +109,26 @@ public class MainScreenController implements Initializable {
 
     }
 
+    /**
+     * Called when user clicks "Modify" from the Main screen.
+     * Get and pass the selectedPart to showModifyPartDialog() in mainApp.
+     * Display TableView once received saveClicked from showModifyPartDialog().
+     * 
+     */
     @FXML
-    void handleModifyPart(ActionEvent event) {
-
+    public void handleModifyPart() {
+        boolean saveClicked = false;
+        Part selectedPart = partTable.getSelectionModel().getSelectedItem();
+        if(selectedPart != null){
+            saveClicked = mainApp.showModifyPartDialog(selectedPart);
+        } else {
+            // TO DO
+        }
+        
+        if(saveClicked){
+            partTableDisplay();
+        }
+        
     }
 
     @FXML

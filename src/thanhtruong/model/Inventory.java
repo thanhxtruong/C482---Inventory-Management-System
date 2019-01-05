@@ -5,7 +5,6 @@
  */
 package thanhtruong.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -78,9 +77,10 @@ public class Inventory {
         allParts.add(part);
     }
     
-//    public boolean deletePart(Part part){
-//        //TO DO
-//    }
+    public boolean deletePart(Part part){
+        allParts.remove(part);
+        return true;
+    }
     
 //    public Part lookupPart(int partID){
 //        Part partFound = null;
@@ -93,6 +93,10 @@ public class Inventory {
 //    }
     
     public void updatePart(int partID){
-        // TO DO
+//        for(Part part : allParts){
+//            if(part.getPartID() == partID){
+//                
+//            }
+//        }
     }
 }
