@@ -101,12 +101,18 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void handleDeletePart(ActionEvent event) {
-
+        Part selectedPart = partTable.getSelectionModel().getSelectedItem();
+        if(selectedPart != null){
+            mainApp.getInventory().deletePart(selectedPart);
+        } else {
+            // TO DO
+        }
+        partTableDisplay();
     }
 
     @FXML
-    void handleDeleteProduct(ActionEvent event) {
-
+    void handleDeleteProduct() {
+        
     }
 
     /**
@@ -127,8 +133,7 @@ public class MainScreenController implements Initializable {
         
         if(saveClicked){
             partTableDisplay();
-        }
-        
+        }        
     }
 
     @FXML
