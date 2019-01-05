@@ -6,13 +6,14 @@
 package thanhtruong.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
  * @author thanhtruong
  */
 public class InhousePart extends Part{
-    private int machineID;
+    private IntegerProperty machineID = new SimpleIntegerProperty();
     
     public InhousePart(){
         this(0, 0, null, 0.0, 0, 0, 0);        
@@ -32,15 +33,16 @@ public class InhousePart extends Part{
         super.setInStock(inStock);
         super.setMin(min);
         super.setMax(max);
-        this.machineID = machineID;
+        this.machineID.set(machineID);
     }  
     
     public int getMachineID() {
-        return machineID;
+        return machineID.get();
     }
 
     public void setMachineID(int machineID) {
-        this.machineID = machineID;
-    }
+        this.machineID.set(machineID);
+    }    
+    
         
 }

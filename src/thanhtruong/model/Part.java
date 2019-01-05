@@ -5,64 +5,71 @@
  */
 package thanhtruong.model;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 /**
  *
  * @author thanhtruong
  */
 public abstract class Part {
-    private int partID; 
-    private String name;
-    private Double price;
-    private int inStock;
-    private int min;
-    private int max;    
+    private IntegerProperty partID = new SimpleIntegerProperty(); 
+    private StringProperty name = new SimpleStringProperty();
+    private DoubleProperty price = new SimpleDoubleProperty();
+    private IntegerProperty inStock = new SimpleIntegerProperty();
+    private IntegerProperty min = new SimpleIntegerProperty();
+    private IntegerProperty max = new SimpleIntegerProperty();    
     
     public int getPartID() {
-        return partID;
+        return partID.get();
     }
 
     public String getName() {
-        return name;
+        return name.get();
     }
 
     public Double getPrice() {
-        return price;
+        return price.get();
     }
 
     public int getInStock() {
-        return inStock;
+        return inStock.get();
     }
 
     public int getMin() {
-        return min;
+        return min.get();
     }
 
     public int getMax() {
-        return max;
+        return max.get();
     }
 
     public void setPartID(int partID) {
-        this.partID = partID;
+        this.partID.set(partID);
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name.set(name);
     }
 
     public void setPrice(Double price) {
-        this.price = price;
+        this.price.set(price);
     }
 
     public void setInStock(int inStock) {
-        this.inStock = inStock;
+        this.inStock.set(inStock);
     }
 
     public void setMin(int min) {
-        this.min = min;
+        this.min.set(min);
     }
 
     public void setMax(int max) {
-        this.max = max;
+        this.max.set(max);
     }          
     
 }

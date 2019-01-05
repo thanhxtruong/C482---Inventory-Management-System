@@ -26,7 +26,12 @@ public class MainApp extends Application {
 
     private Stage primaryStage;
     private AnchorPane rootLayout;
- 
+    private Inventory inventory = new Inventory();
+
+    public Inventory getInventory() {
+        return inventory;
+    }
+            
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -74,6 +79,7 @@ public class MainApp extends Application {
             
             // Set the controller in order to pass the stage and call setPartID()
             AddPartController controller = loader.getController();
+            controller.setMainApp(this);
             controller.setDialogStage(addPartStage);
             controller.setPartID();
             

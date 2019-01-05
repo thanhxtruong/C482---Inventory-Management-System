@@ -7,6 +7,7 @@ package thanhtruong.view_controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -14,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import thanhtruong.MainApp;
 import thanhtruong.model.Inventory;
 import thanhtruong.model.Part;
@@ -68,18 +70,19 @@ public class MainScreenController implements Initializable {
     private Button productDeleteButton;
     
     private MainApp mainApp;
-    private Inventory inventory = new Inventory();
-    private Part tempPart;
-    
-    public Inventory getInventory() {
-        System.out.println("Inventory created");
-        return inventory;
-    }    
+        
     
     public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
     }
     
+    private void partTableDisplay(){
+        partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        partTable.setItems(mainApp.getInventory().getAllParts());
+    }
     /**
      * Called when user clicks the "Add" button. Opens the "AddPartScreen"
      */
@@ -87,17 +90,9 @@ public class MainScreenController implements Initializable {
     private void handleAddPart() {
         boolean saveClicked = mainApp.showAddPartDialog();
         if(saveClicked){
-            inventory.addPart(tempPart);
+            partTableDisplay(); 
         }
-    }
-    
-    public void getPart(Part part){
-        tempPart = part;
-    }
-    
-    private void setPart(Part part){
-        tempPart = part;
-    }
+    }        
 
     @FXML
     private void handleAddProduct() {
@@ -133,8 +128,7 @@ public class MainScreenController implements Initializable {
     void handleSearchProduct(ActionEvent event) {
 
     }
-    
-    
+       
 
     /**
      * Initializes the controller class.

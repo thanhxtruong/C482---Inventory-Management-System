@@ -92,7 +92,9 @@ public class AddPartController {
                 newInhousePart.setPrice(Double.parseDouble(partCost.getText()));
                 newInhousePart.setMin(Integer.parseInt(partInvMin.getText()));
                 newInhousePart.setMax(Integer.parseInt(partInvMax.getText()));
-                newInhousePart.setMachineID(Integer.parseInt(nameOrIDText.getText())); 
+                newInhousePart.setMachineID(Integer.parseInt(nameOrIDText.getText()));
+                
+                mainApp.getInventory().addPart(newInhousePart);
             } else{
                 newOutsourcedPart = new OutsourcedPart();
                 
@@ -103,6 +105,8 @@ public class AddPartController {
                 newOutsourcedPart.setMin(Integer.parseInt(partInvMin.getText()));
                 newOutsourcedPart.setMax(Integer.parseInt(partInvMax.getText()));
                 newOutsourcedPart.setCompanyName(nameOrIDText.getText());
+                
+                mainApp.getInventory().addPart(newOutsourcedPart);
             }
             
             // Reset and pass "saveClicked" back to MainApp after "addPartStage.showAndWait().

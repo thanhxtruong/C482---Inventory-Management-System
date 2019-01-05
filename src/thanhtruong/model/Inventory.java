@@ -7,29 +7,31 @@ package thanhtruong.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  * 
  * @author thanhtruong
  */
 public class Inventory {
-    private static List<Product> products;
-    private static List<Part> allParts;
+    private static ObservableList<Product> products;
+    private static ObservableList<Part> allParts;
        
 
     public Inventory() {
-        this.products = new ArrayList<>();
-        this.allParts  = new ArrayList<>();
+        this.products = FXCollections.observableArrayList();
+        this.allParts  = FXCollections.observableArrayList();
     } 
     
     public List<Product> getProducts() {
         return products;
     }
 
-    public List<Part> getAllParts() {
+    public ObservableList<Part> getAllParts() {
         return allParts;
-    }   
-            
+    }    
+                
     public void addProduct(Product product){
         if(!products.contains(product)){
             products.add(product);
