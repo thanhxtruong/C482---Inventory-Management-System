@@ -15,9 +15,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thanhtruong.view_controller.ModifyProductController">
    <children>
-      <AnchorPane layoutX="14.0" layoutY="21.0" prefHeight="621.0" prefWidth="1167.0" style="-fx-border-color: silver; -fx-border-radius: 15;">
+      <AnchorPane layoutX="14.0" layoutY="21.0" prefHeight="621.0" prefWidth="1167.0" style="-fx-border-color: #c0c0c0; -fx-border-radius: 15;">
          <children>
-            <AnchorPane layoutX="541.0" layoutY="37.0" prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: 204, 204, 204; -fx-border-color: silver; -fx-border-radius: 10;">
+            <AnchorPane layoutX="541.0" layoutY="37.0" prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #c0c0c0; -fx-border-radius: 10;">
                <children>
                   <TableView fx:id="addPartTable" layoutX="12.0" layoutY="47.0" prefHeight="128.0" prefWidth="578.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="46.0">
                      <columns>
@@ -39,7 +39,7 @@
                   <TextField fx:id="partSearch" layoutX="407.0" layoutY="7.0" AnchorPane.topAnchor="5.0" />
                </children>
             </AnchorPane>
-            <AnchorPane layoutX="541.0" layoutY="310.0" prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: 204, 204, 204; -fx-border-color: silver; -fx-border-radius: 10;">
+            <AnchorPane layoutX="541.0" layoutY="310.0" prefHeight="245.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: #c0c0c0; -fx-border-radius: 10;">
                <children>
                   <TableView fx:id="deletePartTable" layoutX="12.0" layoutY="47.0" prefHeight="128.0" prefWidth="578.0" AnchorPane.leftAnchor="11.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="46.0">
                      <columns>
@@ -83,7 +83,7 @@
                   <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                </rowConstraints>
                <children>
-                  <Label alignment="CENTER_RIGHT" text="ID">
+                   <Label alignment="CENTER_RIGHT" text="ID">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
@@ -108,40 +108,40 @@
                         <Font name="System Bold" size="18.0" />
                      </font>
                   </Label>
-                  <Label text="Min" translateX="160.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                  <TextField fx:id="productID" editable="false" promptText="Auto Gen - Disabled" style="-fx-border-color: #c0c0c0; -fx-background-color: #f2f2f2;" GridPane.columnIndex="1">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="productName" promptText="Part Name" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="productInv" maxWidth="-Infinity" prefHeight="33.0" prefWidth="150.0" promptText="Inv" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="productPrice" maxWidth="-Infinity" prefHeight="33.0" prefWidth="150.0" promptText="Price" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="productInvMax" maxWidth="-Infinity" prefHeight="33.0" prefWidth="100.0" promptText="Max" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="productInvMin" maxWidth="-Infinity" prefHeight="33.0" prefWidth="100.0" promptText="Min" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                     <font>
+                        <Font name="System Italic" size="15.0" />
+                     </font>
+                  </TextField>
+                  <Label text="Min" translateX="150.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                      <font>
                         <Font name="System Bold" size="18.0" />
                      </font>
-                  </Label>
-                  <Label fx:id="productID" maxHeight="50.0" maxWidth="-Infinity" prefWidth="250.0" style="-fx-border-color: silver;" text="Label" GridPane.columnIndex="1">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="productName" maxHeight="50.0" maxWidth="-Infinity" prefWidth="250.0" style="-fx-background-color: white; -fx-border-color: silver;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="productInv" maxHeight="50.0" maxWidth="-Infinity" prefHeight="50.0" prefWidth="133.0" style="-fx-background-color: white; -fx-border-color: silver;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="productInvMax" maxWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: silver;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="4">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="productInvMin" maxWidth="-Infinity" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: white; -fx-border-color: silver;" text="Label" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <Label fx:id="productPrice" maxHeight="50.0" maxWidth="-Infinity" prefHeight="50.0" prefWidth="133.0" style="-fx-background-color: white; -fx-border-color: silver;" text="Label" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
                   </Label>
                </children>
             </GridPane>

@@ -59,7 +59,7 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="partID" promptText="Auto Gen - Disabled" style="-fx-border-color: silver; -fx-background-color: #f2f2f2;" GridPane.columnIndex="1">
+            <TextField fx:id="partID" editable="false" promptText="Auto Gen - Disabled" style="-fx-border-color: #c0c0c0; -fx-background-color: #f2f2f2;" GridPane.columnIndex="1">
                <font>
                   <Font name="System Italic" size="15.0" />
                </font></TextField>
@@ -74,11 +74,7 @@
             <TextField fx:id="partCost" promptText="Price/Cost" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="3">
                <font>
                   <Font name="System Italic" size="15.0" />
-               </font></TextField>
-            <TextField fx:id="nameOrIDText" promptText="Company Name" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="5">
-               <font>
-                  <Font name="System Italic" size="15.0" />
-               </font></TextField>
+               </font></TextField>            
             <TextField fx:id="partInvMax" maxWidth="-Infinity" prefHeight="33.0" prefWidth="100.0" promptText="Max" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="System Italic" size="15.0" />
@@ -87,6 +83,10 @@
                <font>
                   <Font name="System Italic" size="15.0" />
                </font></TextField>
+            <TextField fx:id="nameOrIDText" promptText="Company Name" style="-fx-border-color: #c0c0c0;" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <font>
+                  <Font name="System Italic" size="15.0" />
+               </font></TextField>   
             <Label text="Min" translateX="175.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <font>
                   <Font name="System Bold" size="18.0" />

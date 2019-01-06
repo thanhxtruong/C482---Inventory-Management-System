@@ -5,7 +5,6 @@
  */
 package thanhtruong.model;
 
-import java.util.List;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -15,21 +14,20 @@ import javafx.collections.ObservableList;
  */
 public class Inventory {
     private static ObservableList<Product> products;
-    private static ObservableList<Part> allParts;
-       
+    private static ObservableList<Part> allParts;           
 
     public Inventory() {
         this.products = FXCollections.observableArrayList();
         this.allParts  = FXCollections.observableArrayList();
     } 
     
-    public List<Product> getProducts() {
+    public ObservableList<Product> getProducts() {
         return products;
     }
 
     public ObservableList<Part> getAllParts() {
         return allParts;
-    }    
+    }
                 
     public void addProduct(Product product){
         if(!products.contains(product)){
@@ -69,8 +67,15 @@ public class Inventory {
     }
     
     public void updateProduct(int productID){
-//        Product product = queryProduct(productID);
-//        products.set(products.indexOf(product), product)
+        // Implemented using replaceProduct() instead
+    }
+    
+    public void replaceProduct(Product currentProduct, Product newProduct){
+        for(Part part : currentProduct.getPartList()){
+            newProduct.addAssociatedPart(part);
+        }
+        deleteProduct(currentProduct);
+        addProduct(newProduct);
     }
     
     public void addPart(Part part){
@@ -79,6 +84,11 @@ public class Inventory {
     
     public boolean deletePart(Part part){
         allParts.remove(part);
+        return true;
+    }
+    
+    public boolean deleteProduct(Product product){
+        products.remove(product);
         return true;
     }
     

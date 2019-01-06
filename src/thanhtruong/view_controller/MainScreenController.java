@@ -7,7 +7,8 @@ package thanhtruong.view_controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,7 +18,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import thanhtruong.MainApp;
-import thanhtruong.model.Inventory;
 import thanhtruong.model.Part;
 import thanhtruong.model.Product;
 
@@ -76,13 +76,70 @@ public class MainScreenController implements Initializable {
         this.mainApp = mainApp;
     }
     
+    /**
+     * Display/update data in TableView and search part
+     */
     private void partTableDisplay(){
         partIDColumn.setCellValueFactory(new PropertyValueFactory<>("partID"));
-        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("Name"));
+        partNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         partInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
         partCostColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         partTable.setItems(mainApp.getInventory().getAllParts());
+        
+        FilteredList<Part> filteredPartMain = new FilteredList<>(mainApp.getInventory().getAllParts(), p -> true);
+        partSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredPartMain.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                
+                String lowerCaseFilter = newValue.toLowerCase();
+                
+                if (part.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+                
+        SortedList<Part> sortedData = new SortedList<>(filteredPartMain);
+        sortedData.comparatorProperty().bind(partTable.comparatorProperty());
+        partTable.setItems(sortedData);
     }
+    
+    /**
+     * Display/update data in TableView and search product
+     */
+    private void productTableDisplay(){
+        productIDColumn.setCellValueFactory(new PropertyValueFactory<>("productID"));
+        productNameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productInventoryColumn.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        productPriceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        productTable.setItems(mainApp.getInventory().getProducts());
+        
+        FilteredList<Product> filteredProduct = new FilteredList<>(mainApp.getInventory().getProducts(), p -> true);
+        productSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredProduct.setPredicate(product -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                
+                String lowerCaseFilter = newValue.toLowerCase();
+                
+                if (product.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+                
+        SortedList<Product> sortedData = new SortedList<>(filteredProduct);
+        sortedData.comparatorProperty().bind(productTable.comparatorProperty());
+        productTable.setItems(sortedData);
+    }
+    
     /**
      * Called when user clicks the "Add" button. Opens the "AddPartScreen"
      */
@@ -96,11 +153,14 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private void handleAddProduct() {
-        
+        boolean saveClicked = mainApp.showAddProductDialog();
+        if(saveClicked){
+            productTableDisplay(); 
+        }
     }
 
     @FXML
-    void handleDeletePart(ActionEvent event) {
+    void handleDeletePart() {
         Part selectedPart = partTable.getSelectionModel().getSelectedItem();
         if(selectedPart != null){
             mainApp.getInventory().deletePart(selectedPart);
@@ -112,7 +172,13 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void handleDeleteProduct() {
-        
+        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if(selectedProduct != null){
+            mainApp.getInventory().deleteProduct(selectedProduct);
+        } else {
+            // TO DO
+        }
+        productTableDisplay();
     }
 
     /**
@@ -137,18 +203,28 @@ public class MainScreenController implements Initializable {
     }
 
     @FXML
-    void handleModifyProduct(ActionEvent event) {
-
+    void handleModifyProduct() {
+        boolean saveClicked = false;
+        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
+        if(selectedProduct != null){
+            saveClicked = mainApp.showModifyProductDialog(selectedProduct);
+        } else {
+            // TO DO
+        }
+        
+        if(saveClicked){
+            productTableDisplay();
+        }  
     }
 
     @FXML
-    void handleSearchPart(ActionEvent event) {
-
+    void handleSearchPart() {
+        // Implemented via filtered and sorted list above
     }
 
     @FXML
-    void handleSearchProduct(ActionEvent event) {
-
+    void handleSearchProduct() {
+        // Implemented via filtered and sorted list above
     }
        
 

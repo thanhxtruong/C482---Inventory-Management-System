@@ -7,13 +7,18 @@ package thanhtruong.view_controller;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import thanhtruong.MainApp;
 import thanhtruong.model.Part;
 import thanhtruong.model.Product;
 
@@ -25,15 +30,15 @@ import thanhtruong.model.Product;
 public class AddProductController implements Initializable {
 
     @FXML
-    private TableView<Product> addPartTable;
+    private TableView<Part> addPartTable;
     @FXML
-    private TableColumn<Product, Integer> addPartID;
+    private TableColumn<Part, Integer> addPartID;
     @FXML
-    private TableColumn<Product, String> addPartName;
+    private TableColumn<Part, String> addPartName;
     @FXML
-    private TableColumn<Product, Integer> addPartInv;
+    private TableColumn<Part, Integer> addPartInv;
     @FXML
-    private TableColumn<Product, Double> addPartPrice;
+    private TableColumn<Part, Double> addPartPrice;
     @FXML
     private Button addPart;
     @FXML
@@ -41,15 +46,15 @@ public class AddProductController implements Initializable {
     @FXML
     private TextField partSearch;
     @FXML
-    private TableView<Product> deletePartTable;
+    private TableView<Part> deletePartTable;
     @FXML
-    private TableColumn<Product, Integer> deletePartID;
+    private TableColumn<Part, Integer> deletePartID;
     @FXML
-    private TableColumn<Product, String> deletePartName;
+    private TableColumn<Part, String> deletePartName;
     @FXML
-    private TableColumn<Product, Integer> deletePartInv;
+    private TableColumn<Part, Integer> deletePartInv;
     @FXML
-    private TableColumn<Product, Double> deletePartPrice;
+    private TableColumn<Part, Double> deletePartPrice;
     @FXML
     private Button deletePart;
     @FXML
@@ -69,29 +74,208 @@ public class AddProductController implements Initializable {
     @FXML
     private Button cancelAddProduct;
     
+    private static int productIDIndex = 0;
+    private Stage dialogStage;
+    private boolean saveClicked = false;
+    Product newProduct = new Product();
+    
+    private MainApp mainApp;
+    
+    public void setMainApp(MainApp mainApp){
+        this.mainApp = mainApp;
+    }
+    
+    /**
+     * Sets the stage of the "alert.initOwner(dialogStage)". Called by MainApp
+     * @param dialogStage 
+     */
+    public void setDialogStage(Stage dialogStage){
+        this.dialogStage = dialogStage;
+    }
+    
+    public void setProductID(){
+        productIDIndex++;
+        productID.setText(String.valueOf(productIDIndex));
+    }
+    
+    /**
+     * Return to mainApp
+     * @return 
+     */
+    public boolean isSaveClicked() {
+        return saveClicked;
+    }
+    
+    /**
+     * Display all parts in the addPart TableView
+     */
+    public void addProductDialogDisplay(){
+        allPartTableDisplay();
+        associatedPartTableDisplay();
+    }
+    
+    /**
+     * Display/update data in TableView and search part
+     */
+    private void allPartTableDisplay(){
+        addPartID.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        addPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        addPartInv.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        addPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        addPartTable.setItems(mainApp.getInventory().getAllParts());
+        
+        FilteredList<Part> filteredPartAddProduct = new FilteredList<>(mainApp.getInventory().getAllParts(), p -> true);
+        partSearch.textProperty().addListener((observable, oldValue, newValue) -> {
+            filteredPartAddProduct.setPredicate(part -> {
+                // If filter text is empty, display all persons.
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                
+                String lowerCaseFilter = newValue.toLowerCase();
+                
+                if (part.getName().toLowerCase().contains(lowerCaseFilter)) {
+                    return true;
+                }
+                return false;
+            });
+        });
+                
+        SortedList<Part> sortedData = new SortedList<>(filteredPartAddProduct);
+        sortedData.comparatorProperty().bind(addPartTable.comparatorProperty());
+        addPartTable.setItems(sortedData);
+    }
+    
+    private void associatedPartTableDisplay(){
+        
+        deletePartID.setCellValueFactory(new PropertyValueFactory<>("partID"));
+        deletePartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        deletePartInv.setCellValueFactory(new PropertyValueFactory<>("inStock"));
+        deletePartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+        deletePartTable.setItems(newProduct.getPartList());
+                
+    }
+    
      @FXML
-    void handleAddPart(ActionEvent event) {
+    void handleAddPart() {
+        Part selectedPart = addPartTable.getSelectionModel().getSelectedItem();
+        if(selectedPart != null){
+            newProduct.addAssociatedPart(selectedPart);
+            associatedPartTableDisplay();
+        } else {
+            // TO DO
+        }
+        
+    }
 
+    /**
+     * Reset the productIDIndex and close the dialog when user cancels adding a product.
+     * @param event 
+     */
+    @FXML
+    void handleCancelProductAdd() {
+        productIDIndex--;
+        dialogStage.close();
     }
 
     @FXML
-    void handleCancelProductAdd(ActionEvent event) {
-
+    void handleDeletePart() {
+        Part selectedPart = deletePartTable.getSelectionModel().getSelectedItem();
+        if(selectedPart != null){
+            newProduct.deleteAssociatedPart(selectedPart);
+            associatedPartTableDisplay();
+        }
     }
 
     @FXML
-    void handleDeletePart(ActionEvent event) {
-
+    void handlePartSearch() {
+        // Part filtering and sorted is already executed by allPartTableDisplay() above.
     }
 
     @FXML
-    void handlePartSearch(ActionEvent event) {
+    void handleSaveProductAdd() {
+        if(isInputValid()){
+            newProduct.setProductID(Integer.parseInt(productID.getText()));
+            newProduct.setName(productName.getText());
+            newProduct.setInStock(Integer.parseInt(productInv.getText()));
+            newProduct.setPrice(Double.parseDouble(productPrice.getText()));
+            newProduct.setMin(Integer.parseInt(productInvMin.getText()));
+            newProduct.setMax(Integer.parseInt(productInvMax.getText()));
 
+            mainApp.getInventory().addProduct(newProduct);
+                        
+            // Reset and pass "saveClicked" back to MainApp after "addPartStage.showAndWait().
+            // Close dialog
+            saveClicked = true;
+            dialogStage.close();
+        }
     }
-
-    @FXML
-    void handleSaveProductAdd(ActionEvent event) {
-
+    
+    private boolean isInputValid(){
+        String errorMessage = "";
+        
+        if(productID.getText() == null || productID.getText().length() == 0){
+            errorMessage += "No valid Product ID!\n";
+        } else {
+            try {
+                Integer.parseInt(productID.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Product ID (must be an integer)!\n";
+            }
+        }
+        if(productName.getText() == null || productName.getText().length() == 0){
+            errorMessage += "No valid Product Name!\n";
+        }
+        if(productInv.getText() == null || productInv.getText().length() == 0){
+            errorMessage += "No valid Product Inventory!\n";
+        } else {
+            try {
+                Integer.parseInt(productInv.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Product Inventory (must be a number)!\n";
+            }
+        }
+        if(productPrice.getText() == null || productPrice.getText().length() == 0){
+            errorMessage += "No valid Product Price!\n";
+        } else {
+            try {
+                Double.parseDouble(productPrice.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Product Cost/Price (must be a number)!\n";
+            }
+        }
+        if(productInvMin.getText() == null || productInvMin.getText().length() == 0){
+            errorMessage += "No valid Min Product Inventory!\n";
+        } else {
+            try {
+                Integer.parseInt(productInvMin.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Min Product Inventory (must be a number)!\n";
+            }
+        }
+        if(productInvMax.getText() == null || productInvMax.getText().length() == 0){
+            errorMessage += "No valid Max Product Inventory!\n";
+        } else {
+            try {
+                Integer.parseInt(productInvMax.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Max Product Inventory (must be a number)!\n";
+            }
+        }
+        
+        if(errorMessage.length() == 0){
+            return true;
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.initOwner(dialogStage);
+            alert.setTitle("Invalid Input");
+            alert.setHeaderText("Please correct invalid input");
+            alert.setContentText(errorMessage);
+            
+            alert.showAndWait();
+            
+            return false;
+        }
     }
     
 

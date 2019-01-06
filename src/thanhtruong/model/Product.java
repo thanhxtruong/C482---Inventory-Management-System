@@ -5,21 +5,25 @@
  */
 package thanhtruong.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 /**
  *
  * @author thanhtruong
  */
 public class Product {
-    private List<Part> associatedParts = new ArrayList<>();
+    private ObservableList<Part> associatedParts;
     private int productID;
     private String name;
     private double price;
     private int inStock;
     private int min;
     private int max;
+    
+    public Product(){
+        this(0, null, 0.0, 0, 0, 0);
+    }
 
     public Product(int productID,
             String name,
@@ -33,9 +37,11 @@ public class Product {
         this.inStock = inStock;
         this.min = min;
         this.max = max;
+        
+        this.associatedParts = FXCollections.observableArrayList();
     }
 
-    public List<Part> getPartList() {
+    public ObservableList<Part> getPartList() {
         return associatedParts;
     }
 
@@ -62,11 +68,7 @@ public class Product {
     public int getMax() {
         return max;
     }
-
-    public void setPartList(List<Part> partList) {
-        this.associatedParts = partList;
-    }
-
+    
     public void setProductID(int productID) {
         this.productID = productID;
     }
@@ -98,7 +100,7 @@ public class Product {
             //TO DO
         }                
     }
-    
+        
     public boolean removeAssociatedPart(int partID){
         Part part = lookupAssociatedPart(partID);
         if(part != null){
@@ -107,6 +109,10 @@ public class Product {
         } else{
             return false;
         }
+    }
+    
+    public void deleteAssociatedPart(Part part){
+        associatedParts.remove(part);
     }
     
     public Part lookupAssociatedPart(int partID){

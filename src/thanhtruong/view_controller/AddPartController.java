@@ -116,6 +116,10 @@ public class AddPartController {
         }
     }
 
+    /**
+     * Return to mainApp
+     * @return 
+     */
     public boolean isSaveClicked() {
         return saveClicked;
     }   
