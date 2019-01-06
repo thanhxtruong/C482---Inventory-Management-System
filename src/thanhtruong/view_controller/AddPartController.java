@@ -23,7 +23,7 @@ import thanhtruong.model.OutsourcedPart;
  *
  * @author thanhtruong
  */
-public class AddPartController {
+public class AddPartController extends DialogConfirmation {
 
     @FXML
     private TextField partID;
@@ -66,8 +66,7 @@ public class AddPartController {
         
     @FXML
     public void handleCancelAddPart() {
-        partIDIndex--;
-        dialogStage.close();
+        cancelConfirmation(dialogStage, partIDIndex);
     }
 
     @FXML
@@ -126,6 +125,9 @@ public class AddPartController {
         
     private boolean isInputValid(){
         String errorMessage = "";
+        int minInvCheck = 0;
+        int maxInvCheck = 0;
+        int inputInventory = 0;
         
         if(partID.getText() == null || partID.getText().length() == 0){
             errorMessage += "No valid Part ID!\n";
@@ -139,29 +141,12 @@ public class AddPartController {
         if(partName.getText() == null || partName.getText().length() == 0){
             errorMessage += "No valid Part Name!\n";
         }
-        if(partInv.getText() == null || partInv.getText().length() == 0){
-            errorMessage += "No valid Part Inventory!\n";
-        } else {
-            try {
-                Integer.parseInt(partInv.getText());
-            } catch(NumberFormatException e) {
-                errorMessage += "No valid Part Inventory (must be a number)!\n";
-            }
-        }
-        if(partCost.getText() == null || partCost.getText().length() == 0){
-            errorMessage += "No valid Part Price/Cost!\n";
-        } else {
-            try {
-                Double.parseDouble(partCost.getText());
-            } catch(NumberFormatException e) {
-                errorMessage += "No valid Part Cost/Price (must be a number)!\n";
-            }
-        }
+        
         if(partInvMin.getText() == null || partInvMin.getText().length() == 0){
             errorMessage += "No valid Min Part Inventory!\n";
         } else {
             try {
-                Integer.parseInt(partInvMin.getText());
+                minInvCheck = Integer.parseInt(partInvMin.getText());
             } catch(NumberFormatException e) {
                 errorMessage += "No valid Min Part Inventory (must be a number)!\n";
             }
@@ -170,9 +155,33 @@ public class AddPartController {
             errorMessage += "No valid Max Part Inventory!\n";
         } else {
             try {
-                Integer.parseInt(partInvMax.getText());
+                maxInvCheck = Integer.parseInt(partInvMax.getText());
             } catch(NumberFormatException e) {
                 errorMessage += "No valid Max Part Inventory (must be a number)!\n";
+            }
+        }
+        if(partInv.getText() == null || partInv.getText().length() == 0){
+            errorMessage += "No valid Part Inventory!\n";
+        } else {
+            try {
+                inputInventory = Integer.parseInt(partInv.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Part Inventory (must be a number)!\n";
+            } finally {
+                if(inputInventory < minInvCheck){
+                    errorMessage += "Inventory is less than minimum requirement! \n";
+                } else if (inputInventory > maxInvCheck) {
+                    errorMessage += "Inventory exceeds the maximum allowed! \n";
+                }
+            }                
+        }
+        if(partCost.getText() == null || partCost.getText().length() == 0){
+            errorMessage += "No valid Part Price/Cost!\n";
+        } else {
+            try {
+                Double.parseDouble(partCost.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Part Cost/Price (must be a number)!\n";
             }
         }
         if(nameOrIDText.getText() == null || nameOrIDText.getText().length() == 0){
@@ -203,11 +212,18 @@ public class AddPartController {
     }
     
     /**
-     * Sets the stage of the "alert.initOwner(dialogStage)". Called by MainApp
+     * Sets the stage of the "exitConfirmation.initOwner(dialogStage)". Called by MainApp
      * @param dialogStage 
      */
     public void setDialogStage(Stage dialogStage){
         this.dialogStage = dialogStage;
+    }
+    
+    public void setExitConfirmation(){
+        dialogStage.setOnCloseRequest(evt -> {
+                evt.consume();
+                partIDIndex = exitConfirmation(dialogStage, true, partIDIndex);
+        });
     }
     
     /**
@@ -235,7 +251,7 @@ public class AddPartController {
     public void setPartID(){
         partIDIndex++;
         partID.setText(String.valueOf(partIDIndex));
-    }   
+    }      
     
     /**
      * Initializes the controller class, automatically called after successful 

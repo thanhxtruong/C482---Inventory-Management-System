@@ -58,6 +58,7 @@ public class MainApp extends Application {
             // Give controller access to the main app
             MainScreenController controller = loader.getController();
             controller.setMainApp(this);
+            controller.setDialogStage(primaryStage);
             
         } catch(IOException e) {
             e.printStackTrace();
@@ -91,6 +92,7 @@ public class MainApp extends Application {
             addPartStage.setTitle("Inventory MS - Add Part");
             addPartStage.initModality(Modality.WINDOW_MODAL);
             addPartStage.initOwner(primaryStage);
+            
             Scene scene = new Scene(page);
             addPartStage.setScene(scene);
             
@@ -98,8 +100,9 @@ public class MainApp extends Application {
             AddPartController controller = loader.getController();
             controller.setMainApp(this);
             controller.setDialogStage(addPartStage);
-            controller.setPartID();
-            
+            controller.setExitConfirmation();
+            controller.setPartID();           
+                        
             addPartStage.showAndWait();
             
             // Return "saveClicked" from AddPartController as soon as user clickes "Save"
@@ -147,6 +150,7 @@ public class MainApp extends Application {
             controller.setDialogStage(addProductStage);
             controller.setProductID();            
             controller.addProductDialogDisplay();
+            controller.setExitConfirmation();
             
             addProductStage.showAndWait();
             

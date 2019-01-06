@@ -27,7 +27,7 @@ import thanhtruong.model.Product;
  *
  * @author thanhtruong
  */
-public class AddProductController implements Initializable {
+public class AddProductController extends DialogConfirmation implements Initializable {
 
     @FXML
     private TableView<Part> addPartTable;
@@ -91,6 +91,13 @@ public class AddProductController implements Initializable {
      */
     public void setDialogStage(Stage dialogStage){
         this.dialogStage = dialogStage;
+    }
+    
+    public void setExitConfirmation(){
+        dialogStage.setOnCloseRequest(evt -> {
+                evt.consume();
+                productIDIndex = exitConfirmation(dialogStage, true, productIDIndex);
+        });
     }
     
     public void setProductID(){
@@ -174,14 +181,14 @@ public class AddProductController implements Initializable {
      */
     @FXML
     void handleCancelProductAdd() {
-        productIDIndex--;
-        dialogStage.close();
+        cancelConfirmation(dialogStage, productIDIndex);
     }
 
     @FXML
     void handleDeletePart() {
-        Part selectedPart = deletePartTable.getSelectionModel().getSelectedItem();
-        if(selectedPart != null){
+        Part selectedPart = deletePartTable.getSelectionModel().getSelectedItem();                
+        boolean deleteConfirm = deleteConfirmation(dialogStage);
+        if(selectedPart != null && deleteConfirm){
             newProduct.deleteAssociatedPart(selectedPart);
             associatedPartTableDisplay();
         }
@@ -213,6 +220,9 @@ public class AddProductController implements Initializable {
     
     private boolean isInputValid(){
         String errorMessage = "";
+        int minInvCheck = 0;
+        int maxInvCheck = 0;
+        int inputInventory = 0;
         
         if(productID.getText() == null || productID.getText().length() == 0){
             errorMessage += "No valid Product ID!\n";
@@ -225,14 +235,38 @@ public class AddProductController implements Initializable {
         }
         if(productName.getText() == null || productName.getText().length() == 0){
             errorMessage += "No valid Product Name!\n";
+        }        
+        if(productInvMin.getText() == null || productInvMin.getText().length() == 0){
+            errorMessage += "No valid Min Product Inventory!\n";
+        } else {
+            try {
+                minInvCheck = Integer.parseInt(productInvMin.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Min Product Inventory (must be a number)!\n";
+            }
+        }
+        if(productInvMax.getText() == null || productInvMax.getText().length() == 0){
+            errorMessage += "No valid Max Product Inventory!\n";
+        } else {
+            try {
+                maxInvCheck = Integer.parseInt(productInvMax.getText());
+            } catch(NumberFormatException e) {
+                errorMessage += "No valid Max Product Inventory (must be a number)!\n";
+            }
         }
         if(productInv.getText() == null || productInv.getText().length() == 0){
             errorMessage += "No valid Product Inventory!\n";
         } else {
             try {
-                Integer.parseInt(productInv.getText());
+                inputInventory = Integer.parseInt(productInv.getText());
             } catch(NumberFormatException e) {
                 errorMessage += "No valid Product Inventory (must be a number)!\n";
+            } finally {
+                if(inputInventory < minInvCheck){
+                    errorMessage += "Inventory is less than minimum requirement! \n";
+                } else if (inputInventory > maxInvCheck) {
+                    errorMessage += "Inventory exceeds the maximum allowed! \n";
+                }
             }
         }
         if(productPrice.getText() == null || productPrice.getText().length() == 0){
@@ -242,24 +276,6 @@ public class AddProductController implements Initializable {
                 Double.parseDouble(productPrice.getText());
             } catch(NumberFormatException e) {
                 errorMessage += "No valid Product Cost/Price (must be a number)!\n";
-            }
-        }
-        if(productInvMin.getText() == null || productInvMin.getText().length() == 0){
-            errorMessage += "No valid Min Product Inventory!\n";
-        } else {
-            try {
-                Integer.parseInt(productInvMin.getText());
-            } catch(NumberFormatException e) {
-                errorMessage += "No valid Min Product Inventory (must be a number)!\n";
-            }
-        }
-        if(productInvMax.getText() == null || productInvMax.getText().length() == 0){
-            errorMessage += "No valid Max Product Inventory!\n";
-        } else {
-            try {
-                Integer.parseInt(productInvMax.getText());
-            } catch(NumberFormatException e) {
-                errorMessage += "No valid Max Product Inventory (must be a number)!\n";
             }
         }
         

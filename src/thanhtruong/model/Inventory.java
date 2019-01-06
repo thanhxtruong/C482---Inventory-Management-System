@@ -67,7 +67,7 @@ public class Inventory {
     }
     
     public void updateProduct(int productID){
-        // Implemented using replaceProduct() instead
+        // Implemented using replaceProduct() instead        
     }
     
     public void replaceProduct(Product currentProduct, Product newProduct){
@@ -92,21 +92,21 @@ public class Inventory {
         return true;
     }
     
-//    public Part lookupPart(int partID){
-//        Part partFound = null;
-//        for(Part part : allParts){
-//            if(part.getPartID() == partID){
-//                partFound = part;
-//            }
-//        }
-//        return partFound;
-//    }
+    public Part lookupPart(int partID){
+        Part partFound = null;
+        for(Part part : allParts){
+            if(part.getPartID() == partID){
+                partFound = part;
+            }
+        }
+        return partFound;
+    }
     
     public void updatePart(int partID){
-//        for(Part part : allParts){
-//            if(part.getPartID() == partID){
-//                
-//            }
-//        }
+        for(Part part : allParts){
+            if(part.getPartID() == partID){
+                
+            }
+        }
     }
 }

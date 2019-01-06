@@ -123,7 +123,5 @@ public class Product {
             }
         }
         return partFound;
-    }
-    
-    
+    }        
 }

@@ -23,7 +23,7 @@ import thanhtruong.model.Part;
  *
  * @author thanhtruong
  */
-public class ModifyPartController implements Initializable {
+public class ModifyPartController extends DialogConfirmation implements Initializable {
 
     @FXML
     private TextField partID;
@@ -130,7 +130,7 @@ public class ModifyPartController implements Initializable {
     
     @FXML
     void handleCancelPartModify() {
-        dialogStage.close();
+        cancelConfirmation(dialogStage);
     }
 
     @FXML

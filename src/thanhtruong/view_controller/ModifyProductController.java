@@ -13,7 +13,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -28,7 +27,7 @@ import thanhtruong.model.Product;
  *
  * @author thanhtruong
  */
-public class ModifyProductController implements Initializable {
+public class ModifyProductController extends DialogConfirmation implements Initializable {
 
     @FXML
     private TableView<Part> addPartTable;
@@ -180,13 +179,14 @@ public class ModifyProductController implements Initializable {
 
     @FXML
     void handleCancelProductModify() {
-        dialogStage.close();
+        cancelConfirmation(dialogStage);
     }
 
     @FXML
     void handleDeletePart() {
-        Part selectedPart = deletePartTable.getSelectionModel().getSelectedItem();
-        if(selectedPart != null){
+        Part selectedPart = deletePartTable.getSelectionModel().getSelectedItem();                
+        boolean deleteConfirm = deleteConfirmation(dialogStage);
+        if(selectedPart != null && deleteConfirm){
             tempProduct.deleteAssociatedPart(selectedPart);
             associatedPartTableDisplay();
         }

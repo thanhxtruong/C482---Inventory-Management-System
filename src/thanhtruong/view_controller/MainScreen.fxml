@@ -9,9 +9,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thanhtruong.view_controller.MainScreenController">
+<AnchorPane id="AnchorPane" prefHeight="412.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="thanhtruong.view_controller.MainScreenController">
    <children>
-      <AnchorPane layoutX="34.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: silver; -fx-border-radius: 10;" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="25.0">
+      <AnchorPane layoutX="34.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: silver; -fx-border-radius: 10;" AnchorPane.leftAnchor="25.0" AnchorPane.topAnchor="50.0">
          <children>
             <TableView fx:id="partTable" layoutX="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
               <columns>
@@ -40,7 +40,7 @@
             <TextField fx:id="partSearch" layoutX="396.0" layoutY="6.0" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutX="646.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: silver; -fx-border-radius: 10;" AnchorPane.bottomAnchor="45.0" AnchorPane.rightAnchor="25.0">
+      <AnchorPane layoutX="646.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" style="-fx-background-color: #f2f2f2; -fx-border-color: silver; -fx-border-radius: 10;" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="50.0">
          <children>
             <TableView fx:id="productTable" layoutX="14.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="45.0">
                <columns>
@@ -74,5 +74,6 @@
             <Font name="System Bold" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="exit" layoutX="1183.0" layoutY="367.0" mnemonicParsing="false" onAction="#handleExit" prefHeight="31.0" prefWidth="75.0" text="Exit" />
    </children>
 </AnchorPane>

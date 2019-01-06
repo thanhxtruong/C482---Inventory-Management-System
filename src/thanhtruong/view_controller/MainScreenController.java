@@ -17,6 +17,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import thanhtruong.MainApp;
 import thanhtruong.model.Part;
 import thanhtruong.model.Product;
@@ -26,7 +27,7 @@ import thanhtruong.model.Product;
  *
  * @author thanhtruong
  */
-public class MainScreenController implements Initializable {
+public class MainScreenController extends DialogConfirmation implements Initializable {
     
     @FXML
     private TableView<Part> partTable;
@@ -49,6 +50,8 @@ public class MainScreenController implements Initializable {
     @FXML
     private Button partDeleteButton;
     @FXML
+    private Button exit;
+    @FXML
     private TableView<Product> productTable;
     @FXML
     private TableColumn<Product, Integer> productIDColumn;
@@ -70,10 +73,19 @@ public class MainScreenController implements Initializable {
     private Button productDeleteButton;
     
     private MainApp mainApp;
+    private Stage dialogStage;
         
     
     public void setMainApp(MainApp mainApp){
         this.mainApp = mainApp;
+    }
+    
+    /**
+     * Sets the stage of the "alert.initOwner(dialogStage)". Called by MainApp
+     * @param dialogStage 
+     */
+    public void setDialogStage(Stage dialogStage){
+        this.dialogStage = dialogStage;
     }
     
     /**
@@ -161,19 +173,21 @@ public class MainScreenController implements Initializable {
 
     @FXML
     void handleDeletePart() {
-        Part selectedPart = partTable.getSelectionModel().getSelectedItem();
-        if(selectedPart != null){
+        Part selectedPart = partTable.getSelectionModel().getSelectedItem();        
+        boolean deleteConfirm = deleteConfirmation(dialogStage);
+        if(selectedPart != null && deleteConfirm){
             mainApp.getInventory().deletePart(selectedPart);
         } else {
-            // TO DO
+            // Optionally, an alert can be added to prompt user to select a part
         }
         partTableDisplay();
     }
 
     @FXML
     void handleDeleteProduct() {
-        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();
-        if(selectedProduct != null){
+        Product selectedProduct = productTable.getSelectionModel().getSelectedItem();                
+        boolean deleteConfirm = deleteConfirmation(dialogStage);
+        if(selectedProduct != null && deleteConfirm){
             mainApp.getInventory().deleteProduct(selectedProduct);
         } else {
             // TO DO
@@ -225,6 +239,11 @@ public class MainScreenController implements Initializable {
     @FXML
     void handleSearchProduct() {
         // Implemented via filtered and sorted list above
+    }
+    
+    @FXML
+    void handleExit() {
+        dialogStage.close();
     }
        
 
