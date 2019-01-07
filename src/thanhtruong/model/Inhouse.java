@@ -5,22 +5,22 @@
  */
 package thanhtruong.model;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  *
  * @author thanhtruong
  */
-public class OutsourcedPart extends Part{
-    private StringProperty companyName = new SimpleStringProperty();
+public class Inhouse extends Part{
+    private IntegerProperty machineID = new SimpleIntegerProperty();
     
-    public OutsourcedPart(){
-        this(null, 0, null, 0.0, 0, 0, 0);        
+    public Inhouse(){
+        this(0, 0, null, 0.0, 0, 0, 0);        
     }
 
 
-    public OutsourcedPart(String companyName,
+    public Inhouse(int machineID,
             int partID,
             String name,
             double price,
@@ -33,14 +33,16 @@ public class OutsourcedPart extends Part{
         super.setInStock(inStock);
         super.setMin(min);
         super.setMax(max);
-        this.companyName.set(companyName);
+        this.machineID.set(machineID);
+    }  
+    
+    public int getMachineID() {
+        return machineID.get();
     }
-    public String getCompanyName() {
-        return companyName.get();
-    }   
 
-    public void setCompanyName(String companyName) {
-        this.companyName.set(companyName);
+    public void setMachineID(int machineID) {
+        this.machineID.set(machineID);
     }    
     
+        
 }

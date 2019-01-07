@@ -15,8 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import thanhtruong.MainApp;
-import thanhtruong.model.InhousePart;
-import thanhtruong.model.OutsourcedPart;
+import thanhtruong.model.Inhouse;
+import thanhtruong.model.Outsourced;
 
 /**
  * FXML Controller class
@@ -54,8 +54,8 @@ public class AddPartController extends DialogConfirmation {
     
     private static int partIDIndex = 0;
     private Stage dialogStage;
-    private InhousePart newInhousePart;
-    private OutsourcedPart newOutsourcedPart; 
+    private Inhouse newInhousePart;
+    private Outsourced newOutsourcedPart; 
     private boolean saveClicked = false;
     
     private MainApp mainApp;
@@ -83,7 +83,7 @@ public class AddPartController extends DialogConfirmation {
     private void handleSaveAddPart() {
         if(isInputValid()){
             if(inHouse.isSelected()){
-                newInhousePart = new InhousePart();
+                newInhousePart = new Inhouse();
                 
                 newInhousePart.setPartID(Integer.parseInt(partID.getText()));
                 newInhousePart.setName(partName.getText());
@@ -95,7 +95,7 @@ public class AddPartController extends DialogConfirmation {
                 
                 mainApp.getInventory().addPart(newInhousePart);
             } else{
-                newOutsourcedPart = new OutsourcedPart();
+                newOutsourcedPart = new Outsourced();
                 
                 newOutsourcedPart.setPartID(Integer.parseInt(partID.getText()));
                 newOutsourcedPart.setName(partName.getText());

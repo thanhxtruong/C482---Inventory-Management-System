@@ -14,8 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 import thanhtruong.MainApp;
-import thanhtruong.model.InhousePart;
-import thanhtruong.model.OutsourcedPart;
+import thanhtruong.model.Inhouse;
+import thanhtruong.model.Outsourced;
 import thanhtruong.model.Part;
 
 /**
@@ -97,12 +97,12 @@ public class ModifyPartController extends DialogConfirmation implements Initiali
         partCost.setText(String.valueOf(part.getPrice()));
         partInvMax.setText(String.valueOf(part.getMax()));
         partInvMin.setText(String.valueOf(part.getMin()));
-        if(part instanceof InhousePart){
+        if(part instanceof Inhouse){
             selectDialogDisplay(true);
-            nameOrIDText.setText(String.valueOf(((InhousePart) part).getMachineID()));
-        } else if(part instanceof OutsourcedPart){
+            nameOrIDText.setText(String.valueOf(((Inhouse) part).getMachineID()));
+        } else if(part instanceof Outsourced){
             selectDialogDisplay(false);
-            nameOrIDText.setText(((OutsourcedPart) part).getCompanyName());
+            nameOrIDText.setText(((Outsourced) part).getCompanyName());
         }
     }
     
@@ -156,7 +156,7 @@ public class ModifyPartController extends DialogConfirmation implements Initiali
         if(isInputValid()){
             if(inHouse.isSelected()){                
                 
-                InhousePart newPart = new InhousePart();
+                Inhouse newPart = new Inhouse();
                 newPart.setPartID(Integer.parseInt(partID.getText()));
                 newPart.setName(partName.getText());
                 newPart.setInStock(Integer.parseInt(partInv.getText()));
@@ -169,7 +169,7 @@ public class ModifyPartController extends DialogConfirmation implements Initiali
                 mainApp.getInventory().addPart(newPart);
             } else{
                 
-                OutsourcedPart newPart = new OutsourcedPart();
+                Outsourced newPart = new Outsourced();
                 newPart.setPartID(Integer.parseInt(partID.getText()));
                 newPart.setName(partName.getText());
                 newPart.setInStock(Integer.parseInt(partInv.getText()));
