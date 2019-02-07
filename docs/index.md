@@ -2,27 +2,21 @@
 layout: default
 ---
 
-# Header 1
-OBJECTIVE:
+# OBJECTIVE:
 Develop and configure several quality modules in the ERP system to convert the current paper system to an electronic workflow-based system.
 
-#Header 1
-TECHNICAL WRAP-UP:
+# TECHNICAL WRAP-UP:
 * ERP system (IQMS)
 * Workflow and electronic signatures
 * Crystal Reports
 
-#Header 1
-HOW I SOLVED THE PROBLEM:
+# HOW I SOLVED THE PROBLEM:
 
-#Header 1
-ACHIEVEMENT:
+# ACHIEVEMENT:
 
-#Header 1
-SKILLS:
+# SKILLS:
 
-# Header 1
-SYSTEMS DEVELOPED:
+# SYSTEMS DEVELOPED:
 
 
 
